@@ -1,0 +1,11 @@
+# Entorno virtual
+venv_camiones/
+
+# Archivos de caché de Python
+__pycache__/
+
+# Modelos pesados de YOLO (se descargan o entrenan, no se suben)
+*.pt
+
+# Archivo de variables de entorno (Aquí irá tu contraseña)
+.env
