@@ -4,8 +4,8 @@ venv_camiones/
 # Archivos de caché de Python
 __pycache__/
 
-# Modelos pesados de YOLO (se descargan o entrenan, no se suben)
+# Modelos pesados de YOLO 
 *.pt
 
-# Archivo de variables de entorno (Aquí irá tu contraseña)
+# Archivo de variables de entorno 
 .env
