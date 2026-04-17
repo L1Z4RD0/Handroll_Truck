@@ -1,0 +1,37 @@
+services:
+
+  # ── Aplicación principal ──────────────────────────────────
+  handroll-truck:
+    image: ghcr.io/l1z4rd0/handroll-truck:latest
+    restart: unless-stopped
+    env_file:
+      - .env                                # carga DB_HOST, DB_NAME, DB_USER, DB_PASSWORD
+    environment:
+      DB_HOST: db                           # sobreescribe DB_HOST para apuntar al servicio interno
+    depends_on:
+      db:
+        condition: service_healthy          # espera a que Postgres esté listo y sano
+
+  # ── Base de datos PostgreSQL local ────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - .env                                # POSTGRES_USER / POSTGRES_PASSWORD / POSTGRES_DB
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql   # crea tablas al primer inicio
+    ports:
+      - "5432:5432"                         # expone Postgres para conectarte con DBeaver/pgAdmin
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:                            # volumen persistente (sobrevive a reinicios)
