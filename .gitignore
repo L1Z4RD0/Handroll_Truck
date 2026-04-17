@@ -9,3 +9,5 @@ __pycache__/
 
 # Archivo de variables de entorno 
 .env
+
+.env copy
