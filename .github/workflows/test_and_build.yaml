@@ -37,4 +37,4 @@ jobs:
       uses: docker/build-push-action@v7
       with:
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/handroll-truck:latest
+        tags: ghcr.io/l1z4rd0/handroll-truck:latest
